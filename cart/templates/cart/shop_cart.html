@@ -1,0 +1,109 @@
+{% extends 'mart/base.html' %}
+{% load static %}  
+
+{% block title %}
+   Your Shopping Cart
+{% endblock %}
+  
+{%block content %}
+  
+  
+  <!-- Cart Items -->
+    <div class="container cart">
+      <table>
+        <tr>
+          <th>Product</th>
+          <th>Quantity</th>
+          <th>Subtotal</th>
+        </tr>
+
+        {% for item in cart %}
+                {% with product=item.product %}
+        <tr>
+          <td>
+            <div class="cart-info">
+              <img src="{{ product.image.url }}" alt="" />
+              <div>
+                <p>{{ product.name }}</p>
+                <span>Price: $ {{ product.price }}</span> <br />
+               <form action="{% url 'cart:cart_remove' product.id %}" method="post">
+                    <input type="submit" value="Remove">
+                    {% csrf_token %}
+                </form>
+              </div>
+            </div>
+          </td>
+          <td>
+              <form action="{% url "cart:cart_add" product.id %}" method="post">
+                    {{ item.update_quantity_form.quantity }}
+                    {{ item.update_quantity_form.override }}
+                <input type="submit" value="Update">
+                {% csrf_token %}
+              </form>
+           </td>
+          <td>{{ item.total_price }}</td>
+        </tr>
+                {% endwith %}
+        {% endfor %}
+
+
+      </table>
+      <div class="total-price">
+        <table>
+          <tr>
+            <td>Subtotal</td>
+            <td>$ {{ cart.get_total_price }}</td>
+          </tr>
+          <tr>
+            <td>Tax</td>
+            <td>$50</td>
+          </tr>
+          <tr>
+            <td>Total</td>
+            <td>$ </td>
+          </tr>
+        </table>
+        <a href="{% url 'products:order_create' %}" class="checkout btn">Proceed To Checkout</a>
+      </div>
+
+       <div class="col-md-6 text-center">
+            <a href="{% url 'products:product_list' %}" class="checkout btn">Continue Shopping</a>
+        </div>
+    </div>
+
+    <!-- Latest Products -->
+    <section class="section featured">
+      <div class="top container">
+        <h1>Latest Products</h1>
+        <a href="{% url 'products:product_list' %}" class="view-more">View more</a>
+      </div>
+      <div class="product-center container">
+           {% for product in latest_products %}
+        <div class="product-item">
+          <div class="overlay">
+            <a href="" class="product-thumb">
+              <img src="{{ product.image.url }}" alt="" />
+            </a>
+          </div>
+          <div class="product-info">
+            <span>MEN'S CLOTHES</span>
+            <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
+            <h4>$150</h4>
+          </div>
+          <ul class="icons">
+            <li><i class="bx bx-heart"></i></li>
+            <li><i class="bx bx-search"></i></li>
+            <li><i class="bx bx-cart"></i></li>
+          </ul>
+        </div>
+            {% endfor %}
+      </div>
+    </section>
+{% endblock content %}
+
+{% block js %}
+  
+    <!-- Custom Script -->
+    <script src="{%static 'mart/js/index.js' %}"></script>
+
+{% endblock js %}
