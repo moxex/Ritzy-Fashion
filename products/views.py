@@ -4,6 +4,9 @@ from .models import Category, Product, Order, OrderItem
 from cart.forms import CartAddProductForm
 from .forms import OrderCreateForm
 from cart.cart import Cart
+from .render import Render
+from django.http import JsonResponse
+from django.utils import timezone
 
 # Create your views here.
 def product_list(request, category_slug=None):
@@ -78,3 +81,39 @@ def product_category(request, category, slug):
         "product": product,
     }
     return render(request, "products/category_product_list.html", context)
+
+
+def ajax_payment(request):
+    if request.is_ajax():
+        reference_id = request.POST.get('reference')
+        x = Order(reference=reference_id, paid=True)
+        x.save()
+        if x:
+            response = {
+                'message': "Your Payment was successfully received"
+            }
+            return JsonResponse(response)
+        else:
+            response = {
+                'message': "Your Payment Failed"
+            }
+            return JsonResponse(response)
+
+
+# view for pdf rendering
+class Pdf(View):
+
+    def get(self, request, id):
+        cart = Cart(request)
+        order_item = get_object_or_404(Order, id=id)
+        today = timezone.now()
+        # clear the cart
+        cart.clear()
+        params = {
+            'id': id,
+            'today': today,
+            'cart': cart,
+            'order_item': order_item,
+            # 'request': request
+        }
+        return Render.render('products/pdf.html', params)

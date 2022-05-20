@@ -3,7 +3,6 @@
 
 {% block content %}
 
-
 <!-- Navigation -->
     <div class="top-nav">
       <div class="container d-flex">
@@ -76,56 +75,63 @@
       </div>
     </div>
 
- <!-- All Products -->
-    <section class="section all-products" id="products">
-      <div class="top container">
-        <h1>All Products</h1>
-        <form>
-          <select>
-            <option value="1">Defualt Sorting</option>
-            <option value="2">Sort By Price</option>
-            <option value="3">Sort By Popularity</option>
-            <option value="4">Sort By Sale</option>
-            <option value="5">Sort By Rating</option>
-          </select>
-          <span><i class="bx bx-chevron-down"></i></span>
+
+    <!-- Login -->
+    <div class="container">
+      <div class="login-form">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+          <h1>Login</h1>
+          <p>
+            Already have an account? Login in or
+            <a href="signup.html">Sign Up</a>
+          </p>
+
+          <label for="username">Username</label>
+          <input type="text" placeholder="Username" name="username" required />
+
+          <label for="password1">Password</label>
+          <input
+            type="password"
+            placeholder="Enter Password"
+            name="password1"
+            required
+          />
+
+          <label for="psw-repeat">Repeat Password</label>
+          <input
+            type="password"
+            placeholder="Repeat Password"
+            name="psw-repeat"
+            required
+          />
+
+          <label>
+            <input
+              type="checkbox"
+              checked="checked"
+              name="remember"
+              style="margin-bottom: 15px"
+            />
+            Remember me
+          </label>
+
+          <p>
+            By creating an account you agree to our
+            <a href="#">Terms & Privacy</a>.
+          </p>
+
+          <div class="buttons">
+            <button type="button" class="cancelbtn">Cancel</button>
+            <button type="submit" class="signupbtn">Login</button>
+          </div>
         </form>
       </div>
-      <div class="product-center container">
-          {% for product in products %}
-        <div class="product-item">
-          <div class="overlay">
-            <a href="{{ product.get_absolute_url }}" class="product-thumb">
-              <img src="{% if product.image %} {{ product.image.url }} {% endif %}" alt="" />
-            </a>
-            <span class="discount">40%</span>
-          </div>
-          <div class="product-info">
-            <span>MEN'S CLOTHES</span>
-            <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
-            <h4>₦  {{ product.price }}</h4>
-          </div>
-          <ul class="icons">
-            <li><i class="bx bx-heart"></i></li>
-            <li><i class="bx bx-search"></i></li>
-            <li><i class="bx bx-cart"></i></li>
-          </ul>
-        </div>
-        {% endfor %}
-      </div>
-    </section>
-    <section class="pagination">
-      <div class="container">
-        <span>1</span> <span>2</span> <span>3</span> <span>4</span>
-        <span><i class="bx bx-right-arrow-alt"></i></span>
-      </div>
-    </section>
-
+    </div>
 {% endblock content %}
 
 {% block js %}
-  
-    <!-- Custom Script -->
-    <script src="{%static 'mart/js/index.js' %}"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.4.1/glide.min.js"></script>
+  <script src="{%static 'mart/js/slider.js'%}"></script>
+  <script src="{%static 'mart/js/index.js' %}"></script>
 {% endblock js %}

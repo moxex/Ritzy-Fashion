@@ -7,6 +7,78 @@
   
 {%block content %}
   
+<!-- Navigation -->
+    <div class="top-nav">
+      <div class="container d-flex">
+        <p>Order Online Or Call Us: (001) 2222-55555</p>
+        <ul class="d-flex">
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="navigation">
+      <div class="nav-center container d-flex">
+        <a href="index.html" class="logo"><h1>Ritzy Fashion</h1></a>
+
+        <ul class="nav-list d-flex">
+          <li class="nav-item">
+            <a href="{% url 'mart:ritzy-home' %}" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'product:product_list' %}" class="nav-link">Shop</a>
+          </li>
+          <li class="nav-item">
+            <a href="#terms" class="nav-link">Terms</a>
+          </li>
+          <li class="nav-item">
+            <a href="#about" class="nav-link">About</a>
+          </li>
+          <li class="nav-item">
+            <a href="#contact" class="nav-link">Contact</a>
+          </li>
+          <li class="icons d-flex">
+            <a href="login.html" class="icon">
+              <i class="bx bx-user"></i>
+            </a>
+            <div class="icon">
+              <i class="bx bx-search"></i>
+            </div>
+            <div class="icon">
+              <i class="bx bx-heart"></i>
+              <span class="d-flex">0</span>
+            </div>
+            <a href="cart.html" class="icon">
+              <i class="bx bx-cart"></i>
+              <span class="d-flex">0</span>
+            </a>
+          </li>
+        </ul>
+
+        <div class="icons d-flex">
+          <a href="login.html" class="icon">
+            <i class="bx bx-user"></i>
+          </a>
+          <div class="icon">
+            <i class="bx bx-search"></i>
+          </div>
+          <div class="icon">
+            <i class="bx bx-heart"></i>
+            <span class="d-flex">0</span>
+          </div>
+          <a href="cart.html" class="icon">
+            <i class="bx bx-cart"></i>
+            <span class="d-flex">0</span>
+          </a>
+        </div>
+
+        <div class="hamburger">
+          <i class="bx bx-menu-alt-left"></i>
+        </div>
+      </div>
+    </div>
+
   
   <!-- Cart Items -->
     <div class="container cart">
@@ -25,7 +97,7 @@
               <img src="{{ product.image.url }}" alt="" />
               <div>
                 <p>{{ product.name }}</p>
-                <span>Price: $ {{ product.price }}</span> <br />
+                <span>Price: &#8358; {{ product.price }}</span> <br />
                <form action="{% url 'cart:cart_remove' product.id %}" method="post">
                     <input type="submit" value="Remove">
                     {% csrf_token %}
@@ -52,15 +124,15 @@
         <table>
           <tr>
             <td>Subtotal</td>
-            <td>$ {{ cart.get_total_price }}</td>
+            <td>&#8358; {{ cart.get_total_price }}</td>
           </tr>
           <tr>
-            <td>Tax</td>
-            <td>$50</td>
+            <td>VAT</td>
+            <td>&#8358;</td>
           </tr>
           <tr>
             <td>Total</td>
-            <td>$ </td>
+            <td>&#8358; </td>
           </tr>
         </table>
         <a href="{% url 'products:order_create' %}" class="checkout btn">Proceed To Checkout</a>
@@ -88,7 +160,7 @@
           <div class="product-info">
             <span>MEN'S CLOTHES</span>
             <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
-            <h4>$150</h4>
+            <h4>₦ {{ product.price }}</h4>
           </div>
           <ul class="icons">
             <li><i class="bx bx-heart"></i></li>

@@ -1,8 +1,7 @@
-{% extends 'mart/base.html' %}
+{% extends 'mart/base.html' %} {% block title %} Checkout {% endblock %} 
 {% load static %}
 
 {% block content %}
-
 
 <!-- Navigation -->
     <div class="top-nav">
@@ -76,56 +75,57 @@
       </div>
     </div>
 
- <!-- All Products -->
-    <section class="section all-products" id="products">
-      <div class="top container">
-        <h1>All Products</h1>
-        <form>
-          <select>
-            <option value="1">Defualt Sorting</option>
-            <option value="2">Sort By Price</option>
-            <option value="3">Sort By Popularity</option>
-            <option value="4">Sort By Sale</option>
-            <option value="5">Sort By Rating</option>
-          </select>
-          <span><i class="bx bx-chevron-down"></i></span>
+
+    <!-- Login -->
+    <div class="container">
+      <div class="login-form">
+          <h1>Please fill the form to Checkout</h1>
+          <hr>
+          <br>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+          <h1>Your order</h1>
+            <ul>
+                {% for item in cart %}
+                <li>
+                {{ item.quantity }}x {{ item.product.name }}
+                <span>&#8358;{{ item.total_price }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+          <p>
+            Total: &#8358;{{ cart.get_total_price }}
+          </p>
+
+          <label for="first_name">Frist Name</label>
+          <input type="text" placeholder="First Name" name="first_name" required />
+
+          <label for="last_name">Last Name</label>
+          <input type="text" placeholder="Last Name" name="last_name" required />
+
+          <label for="email">Email</label>
+          <input type="email" placeholder="Email" name="email" required />
+
+          <label for="address">Address</label>
+          <input type="text" placeholder="Address" name="address" required />
+
+          <label for="phone_number">Phone Number</label>
+          <input type="tel" placeholder="Phone Number" name="phone_number" required />
+
+          <label for="city">City</label>
+          <input type="text" placeholder="City" name="city" required />
+
+          <div class="buttons">
+            <button type="submit" value="Place order" class="signupbtn">Place order</button>
+          </div>
         </form>
       </div>
-      <div class="product-center container">
-          {% for product in products %}
-        <div class="product-item">
-          <div class="overlay">
-            <a href="{{ product.get_absolute_url }}" class="product-thumb">
-              <img src="{% if product.image %} {{ product.image.url }} {% endif %}" alt="" />
-            </a>
-            <span class="discount">40%</span>
-          </div>
-          <div class="product-info">
-            <span>MEN'S CLOTHES</span>
-            <a href="{{ product.get_absolute_url }}">{{ product.name }}</a>
-            <h4>₦  {{ product.price }}</h4>
-          </div>
-          <ul class="icons">
-            <li><i class="bx bx-heart"></i></li>
-            <li><i class="bx bx-search"></i></li>
-            <li><i class="bx bx-cart"></i></li>
-          </ul>
-        </div>
-        {% endfor %}
-      </div>
-    </section>
-    <section class="pagination">
-      <div class="container">
-        <span>1</span> <span>2</span> <span>3</span> <span>4</span>
-        <span><i class="bx bx-right-arrow-alt"></i></span>
-      </div>
-    </section>
-
+    </div>
 {% endblock content %}
 
 {% block js %}
-  
-    <!-- Custom Script -->
-    <script src="{%static 'mart/js/index.js' %}"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Glide.js/3.4.1/glide.min.js"></script>
+  <script src="{%static 'mart/js/slider.js'%}"></script>
+  <script src="{%static 'mart/js/index.js' %}"></script>
 {% endblock js %}
+
